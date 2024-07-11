@@ -54,7 +54,7 @@ It must look something like this:
 2. Clone [**Deep Learning with PyTorch repository**](https://github.com/deep-learning-with-pytorch/dlwpt-code):
 
 ```sh
-git clone github.com/deep-learning-with-pytorch/dlwpt-code.git
+git clone https://github.com/deep-learning-with-pytorch/dlwpt-code.git
 ```
 
 3. Fix a minor issue in `~/dlwpt-code/util/disk.py`:
