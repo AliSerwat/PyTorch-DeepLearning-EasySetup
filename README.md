@@ -15,7 +15,11 @@
 
 # For getting started:
 1. **Click on the badge** (you need to create an account in [**`lightning.ai`**](https://lightning.ai/onboarding)).
-2. **Change `create_docker_image.sh`'s mode**:
+2. **Clone my repository**:
+   ```sh
+   git clone https://github.com/AliSerwat/PyTorch-DeepLearning-EasySetup.git
+   ```
+3. **Change `create_docker_image.sh`'s mode**:
 ```sh
 chmod +x ~/Easy_setup_for_Deep_Learning_with_PyTorch/create_docker_image.sh
 ```
