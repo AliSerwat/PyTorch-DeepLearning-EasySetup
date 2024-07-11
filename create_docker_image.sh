@@ -53,6 +53,10 @@ fi
 echo "Creating and starting Docker container $CONTAINER_NAME from image $IMAGE_NAME..."
 if docker run -d --name "$CONTAINER_NAME" "$IMAGE_NAME"; then
     echo "Container $CONTAINER_NAME created and started successfully"
+
+    # Activate and work with the created container
+    echo "Activating shell in container $CONTAINER_NAME..."
+    docker exec -it "$CONTAINER_NAME" /bin/bash
 else
     echo "Failed to create or start container $CONTAINER_NAME" >&2
     exit 1
