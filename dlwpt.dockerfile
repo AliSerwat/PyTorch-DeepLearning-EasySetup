@@ -8,9 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV CONDA_DIR /opt/conda
 ENV PATH $CONDA_DIR/bin:$PATH
 
-# Install necessary packages, Miniconda, and set up Conda environment in one layer
+# Install necessary packages, Miniconda, tmux, SSH, and set up Conda environment in one layer
 RUN apt-get update && apt-get install -y \
-    wget bzip2 ca-certificates git curl gnupg lsb-release libarchive13 \
+    wget bzip2 ca-certificates git curl gnupg lsb-release libarchive13 tmux openssh-server \
     && wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \
     && /bin/bash ~/miniconda.sh -b -p $CONDA_DIR \
     && rm ~/miniconda.sh \
@@ -22,9 +22,6 @@ RUN apt-get update && apt-get install -y \
     && conda clean -afy \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* $CONDA_DIR/pkgs /root/.conda/cache/*
-
-# Set shell to use conda environment by default
-SHELL ["conda", "run", "-n", "pytorch_env", "/bin/bash", "-c"]
 
 # Install common packages
 RUN conda install -y \
@@ -43,5 +40,29 @@ RUN conda update --all \
     && conda clean -afy \
     && rm -rf $CONDA_DIR/pkgs /root/.conda/cache/*
 
-# Set the default command to activate 'pytorch_env' when container starts
-CMD ["conda", "run", "--no-capture-output", "-n", "pytorch_env", "/bin/bash"]
+# Install VSCode
+RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg \
+    && install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ \
+    && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' \
+    && apt-get install -y apt-transport-https \
+    && apt-get update \
+    && apt-get install -y code \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* microsoft.gpg
+
+# Set up SSH
+RUN mkdir /var/run/sshd \
+    && echo 'root:root' | chpasswd \
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Expose SSH port
+EXPOSE 22
+EXPOSE 8888
+
+# Create a script to run VSCode with necessary arguments
+RUN echo '#!/bin/bash\ncode --no-sandbox --user-data-dir=/root/.vscode-root "$@"' > /usr/local/bin/code-root \
+    && chmod +x /usr/local/bin/code-root
+
+# Include the example command to keep the container running
+CMD ["sh", "-c", "while true; do echo hello world; sleep 30; done"]
