@@ -2,7 +2,7 @@
 
 # Default values
 IMAGE_NAME="aliserwat/dlwpt:hybrid"
-DOCKERFILE_PATH=~/Easy_setup_for_Deep_Learning_with_PyTorch/dlwpt.dockerfile
+DOCKERFILE_PATH=⚡ ~/PyTorch-DeepLearning-EasySetup/dlwpt.dockerfile
 BUILD_CONTEXT=~/dlwpt-code
 CONTAINER_NAME="dlwpt_container"
 
