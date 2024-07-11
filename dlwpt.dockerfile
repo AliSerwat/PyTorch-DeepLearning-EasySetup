@@ -44,11 +44,13 @@ RUN conda update --all \
     && rm -rf $CONDA_DIR/pkgs /root/.conda/cache/*
 
 # Install VSCode
-RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg \
+RUN apt-get update \
+    && apt-get install -y wget gpg apt-transport-https \
+    && wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg \
     && install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ \
-    && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' \
+    && echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list \
     && apt-get update \
-    && apt-get install -y apt-transport-https code \
+    && apt-get install -y code \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* microsoft.gpg
 
@@ -66,4 +68,4 @@ RUN echo '#!/bin/bash\ncode --no-sandbox --user-data-dir=/root/.vscode-root "$@"
     && chmod +x /usr/local/bin/code-root
 
 # Start SSH service and keep the container running
-CMD service ssh start && sh -c "while true; do echo hello world; sleep 30; done"
+CMD service ssh start && tail -f /dev/null

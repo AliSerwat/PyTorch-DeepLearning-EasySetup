@@ -58,20 +58,9 @@ echo "Creating and starting Docker container $CONTAINER_NAME from image $IMAGE_N
 if docker run -d --name "$CONTAINER_NAME" -p 22:22 -p 8888:8888 "$IMAGE_NAME"; then
     echo "Container $CONTAINER_NAME created and started successfully"
 
-    # Install VSCode in the running container
-    echo "Installing VSCode in container $CONTAINER_NAME..."
-    docker exec -it "$CONTAINER_NAME" /bin/bash -c ' \
-        wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
-        install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && \
-        sh -c "echo \"deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main\" > /etc/apt/sources.list.d/vscode.list" && \
-        apt-get update && \
-        apt-get install -y code && \
-        rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* microsoft.gpg \
-    '
-
     # Start VSCode in the container
     echo "Starting VSCode in container $CONTAINER_NAME..."
-    docker exec -it "$CONTAINER_NAME" /usr/local/bin/code-root
+    docker exec -d "$CONTAINER_NAME" /usr/local/bin/code-root --no-sandbox --user-data-dir=/root/.vscode-root
 
     # Activate and work with the created container
     echo "Activating shell in container $CONTAINER_NAME..."
