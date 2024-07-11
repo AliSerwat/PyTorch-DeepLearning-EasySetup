@@ -33,49 +33,71 @@ chmod +x ~/PyTorch-DeepLearning-EasySetup/create_docker_image.sh
 ~/PyTorch-DeepLearning-EasySetup/create_docker_image.sh
 ```
 
-# After Creating Executing the Container
+# After Creating and Executing the Container, something like this should be displayed in your terminal
 
-There is a minor issue in the file `~/dlwpt-code/util/disk.py`:
+```sh
+(base) root@aeee2fcb741b:~#
+```
 
-1. **Open the file in your editor**:
+1. Activate `pytorch_env` environment:
 
-   ```sh
-   code ~/dlwpt-code/util/disk.py
-   ```
+```sh
+conda activate pytorch_env
+```
 
-2. **Replace the following lines**:
+It must look something like this:
 
-   ```python
-   import gzip
+```sh
+(pytorch_env) root@aeee2fcb741b:~#
+```
 
-   from diskcache import FanoutCache, Disk
-   from diskcache.core import BytesType, MODE_BINARY, BytesIO
+2. Clone [**Deep Learning with PyTorch repository**](https://github.com/deep-learning-with-pytorch/dlwpt-code):
 
-   from util.logconf import logging
-   log = logging.getLogger(__name__)
-   # log.setLevel(logging.WARN)
-   log.setLevel(logging.INFO)
-   # log.setLevel(logging.DEBUG)
-   ```
+```sh
+git clone github.com/deep-learning-with-pytorch/dlwpt-code.git
+```
 
-   **with**:
+3. Fix a minor issue in `~/dlwpt-code/util/disk.py`:
 
-   ```python
-   from util.logconf import logging
-   import io
-   import gzip
+   1. **Open the file in your editor**:
 
-   from diskcache import FanoutCache, Disk
-   # delete BytesType and BytesIO declarations
-   from diskcache.core import MODE_BINARY
+      ```sh
+      code ~/dlwpt-code/util/disk.py
+      ```
 
-   BytesType = bytes  # Import them by ourselves
-   BytesIO = io.BytesIO
+   2. **Replace the following lines**:
 
-   log = logging.getLogger(__name__)
-   # log.setLevel(logging.WARN)
-   log.setLevel(logging.INFO)
-   # log.setLevel(logging.DEBUG)
+      ```python
+      import gzip
+
+      from diskcache import FanoutCache, Disk
+      from diskcache.core import BytesType, MODE_BINARY, BytesIO
+
+      from util.logconf import logging
+      log = logging.getLogger(__name__)
+      # log.setLevel(logging.WARN)
+      log.setLevel(logging.INFO)
+      # log.setLevel(logging.DEBUG)
+      ```
+
+      **with**:
+
+      ```python
+      from util.logconf import logging
+      import io
+      import gzip
+
+      from diskcache import FanoutCache, Disk
+      # delete BytesType and BytesIO declarations
+      from diskcache.core import MODE_BINARY
+
+      BytesType = bytes  # Import them by ourselves
+      BytesIO = io.BytesIO
+
+      log = logging.getLogger(__name__)
+      # log.setLevel(logging.WARN)
+      log.setLevel(logging.INFO)
+      # log.setLevel(logging.DEBUG)
    ```
 
 # Overcoming Internet Connectivity Restrictions in Iran 🌐🔓
