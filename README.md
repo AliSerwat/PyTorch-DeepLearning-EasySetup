@@ -21,11 +21,11 @@
    ```
 3. **Change `create_docker_image.sh`'s mode**:
 ```sh
-chmod +x ~/Easy_setup_for_Deep_Learning_with_PyTorch/create_docker_image.sh
+chmod +x ~/PyTorch-DeepLearning-EasySetup/create_docker_image.sh
 ```
 3. **Execute `create_docker_image.sh`**:
 ```sh
-~/Easy_setup_for_Deep_Learning_with_PyTorch/create_docker_image.sh
+~/PyTorch-DeepLearning-EasySetup/create_docker_image.sh
 ```
 
 # After Creating the Container
