@@ -2,8 +2,8 @@
 
 # Default values
 IMAGE_NAME="aliserwat/dlwpt:hybrid"
-DOCKERFILE_PATH=⚡ ~/PyTorch-DeepLearning-EasySetup/dlwpt.dockerfile
-BUILD_CONTEXT=~/dlwpt-code
+DOCKERFILE_PATH="~/PyTorch-DeepLearning-EasySetup/dlwpt.dockerfile"
+BUILD_CONTEXT="~/container-context"
 CONTAINER_NAME="dlwpt_container"
 
 # Function to show usage information
@@ -26,8 +26,15 @@ while getopts "n:f:c:" opt; do
     esac
 done
 
+# Expand paths
+DOCKERFILE_PATH=$(eval echo "$DOCKERFILE_PATH")
+BUILD_CONTEXT=$(eval echo "$BUILD_CONTEXT")
+
 # Ensure build context directory exists
 mkdir -p "$BUILD_CONTEXT"
+
+# Clone the repository into build context directory
+git clone https://github.com/deep-learning-with-pytorch/dlwpt-code "$BUILD_CONTEXT"
 
 # Remove existing container with the same name if it exists
 docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1

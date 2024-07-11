@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
     && conda update -n base -c defaults conda \
     && conda install -n base -c conda-forge conda-libmamba-solver \
     && conda config --set solver libmamba \
-    && conda create -n pytorch_env python=3.8 \
+    && conda create -n pytorch_env python=3.10 \
     && conda clean -afy \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* $CONDA_DIR/pkgs /root/.conda/cache/*
