@@ -1,6 +1,8 @@
 # Start from an Ubuntu 20.04 base image
 FROM ubuntu:20.04
 
+WORKDIR ~
+
 # Avoid prompts from apt during installation
 ENV DEBIAN_FRONTEND=noninteractive
 
